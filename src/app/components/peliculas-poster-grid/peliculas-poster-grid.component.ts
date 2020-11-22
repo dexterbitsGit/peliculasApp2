@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Movie } from '../../intefaces/cartelera-response';
 
 @Component({
   selector: 'app-peliculas-poster-grid',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PeliculasPosterGridComponent implements OnInit {
 
+@Input movies: Movie[];
+
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.movies);
   }
 
 }
