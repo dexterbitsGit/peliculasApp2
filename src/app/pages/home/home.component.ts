@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { PeliculasService } from '../../services/peliculas.service';
 import { Movie } from '../../intefaces/cartelera-response';
 
@@ -12,6 +12,23 @@ export class HomeComponent implements OnInit {
 
 
   public movies: Movie[] = [];
+
+  @HostListener('window:scroll', ['$event'])
+
+  
+  onScroll(){
+  
+
+    const pos = (document.documentElement.scrollTop || document.body.scrollTop) + 700;
+    const max =  (document.documentElement.scrollHeight || document.body.scrollHeight);
+
+    if ( pos > max) {
+      //TODO: Llamar el servicio
+      console.log('llamar servicio');
+    }
+
+  }
+
 
   constructor( private peliculasServices: PeliculasService) {
 

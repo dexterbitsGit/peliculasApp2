@@ -8,7 +8,7 @@ import { Movie } from '../../intefaces/cartelera-response';
 })
 export class PeliculasPosterGridComponent implements OnInit {
 
-@Input movies: Movie[];
+@Input() movies: Movie[];
 
   constructor() { }
 
