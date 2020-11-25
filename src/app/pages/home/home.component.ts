@@ -12,19 +12,24 @@ export class HomeComponent implements OnInit {
 
 
   public movies: Movie[] = [];
+  public moviesSlideshow: Movie[] = [];
 
   @HostListener('window:scroll', ['$event'])
 
-  
+
   onScroll(){
-  
 
     const pos = (document.documentElement.scrollTop || document.body.scrollTop) + 700;
     const max =  (document.documentElement.scrollHeight || document.body.scrollHeight);
 
     if ( pos > max) {
       //TODO: Llamar el servicio
-      console.log('llamar servicio');
+
+      if ( this.peliculasServices.cargando ) { return; }
+
+      this.peliculasServices.getCartelera().subscribe( movies => {
+        this.movies.push(...movies);
+      });
     }
 
   }
@@ -36,9 +41,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.peliculasServices.getCartelera().subscribe( resp => {
+    this.peliculasServices.getCartelera().subscribe( movies => {
       //console.log(resp);
-      this.movies = resp.results;
+      this.movies = movies;
+      this.moviesSlideshow = movies;
     });
 
   }
