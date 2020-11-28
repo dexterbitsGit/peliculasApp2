@@ -9,7 +9,7 @@ export class PosterPipe implements PipeTransform {
 
     //https://image.tmdb.org/t/p/w500{{ movie.poster_path }}
 
-    if ( poster || poster === null  ) {
+    if ( poster ) {
       return `https://image.tmdb.org/t/p/w500${ poster }`;
     } else {
       return './assets/no-image.jpg';

@@ -25,6 +25,10 @@ public cargando: boolean = false;
     }
   }
 
+  resetCarteleraPage() {
+    this.carteleraPage = 1;
+  }
+
   getCartelera(): Observable<Movie[]> {
 
     if ( this.cargando) {
@@ -46,7 +50,7 @@ public cargando: boolean = false;
 
   }
 
-  buscarPeliculas ( texto: string ): Observable<Movie[]> {
+  buscarPeliculas( texto: string ): Observable<Movie[]> {
 
     const params = {...this.params, page: '1', query: texto};
 
