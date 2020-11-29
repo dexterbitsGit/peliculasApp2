@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { CarteleraResponse, Movie } from '../intefaces/cartelera-response';
+import { MovieResponse } from '../intefaces/movie-response';
 
 
 @Injectable({
@@ -62,6 +63,12 @@ public cargando: boolean = false;
       map( resp => resp.results )
     )
     
+  }
+
+  getPeliculaDetalle( id: string ) {
+    return this.http.get<MovieResponse>(` ${this.baseUrl}/movie/${ id }`, {
+      params: this.params
+    });
   }
 
 }
