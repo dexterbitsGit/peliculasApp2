@@ -19,10 +19,12 @@ export class BuscarComponent implements OnInit {
   ngOnInit(): void {
 
     this.activatedRoute.params.subscribe( params => {
-     this.texto = params.texto;
+     console.log(params.texto);
+      this.texto = params.texto;
       //TODO: llamar el servicio
 
       this.peliculasService.buscarPeliculas( params.texto ).subscribe( movies => {
+        //console.log(movies);
         this.movies = movies;
       })
     })

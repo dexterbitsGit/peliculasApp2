@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
       return;
     }
 
-    this.router.navigate(['/buscar', texto]);
+    this.router.navigate(['/buscar', texto ]);
 
   }
 

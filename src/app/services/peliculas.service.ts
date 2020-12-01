@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { CarteleraResponse, Movie } from '../intefaces/cartelera-response';
 import { MovieResponse } from '../intefaces/movie-response';
+import { CreditsResponse } from '../intefaces/credits-response';
 
 
 @Injectable({
@@ -57,7 +58,7 @@ public cargando: boolean = false;
 
     //https://api.themoviedb.org/3/search/movie
 
-     return this.http.get<CarteleraResponse>(` ${ this.baseUrl }/search/movie`, {
+     return this.http.get<CarteleraResponse>(`${ this.baseUrl }/search/movie`, {
       params
     }).pipe(
       map( resp => resp.results )
@@ -68,7 +69,19 @@ public cargando: boolean = false;
   getPeliculaDetalle( id: string ) {
     return this.http.get<MovieResponse>(` ${this.baseUrl}/movie/${ id }`, {
       params: this.params
-    });
+    }).pipe(
+      catchError( err => of(null) )
+    )
   }
+
+  getCast( id: string ) {
+    return this.http.get<CreditsResponse>(` ${this.baseUrl}/movie/${ id }/credits`, {
+      params: this.params
+    }).pipe(
+      map( resp => resp.cast ),
+      catchError( err => of(null) )
+    );
+  }
+
 
 }
