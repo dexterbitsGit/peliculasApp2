@@ -4,6 +4,7 @@ import { PeliculasService } from '../../services/peliculas.service';
 import { MovieResponse } from '../../intefaces/movie-response';
 import { Location } from '@angular/common';
 import { Cast } from '../../intefaces/credits-response';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-pelicula',
@@ -13,7 +14,7 @@ import { Cast } from '../../intefaces/credits-response';
 export class PeliculaComponent implements OnInit {
 
   public pelicula: MovieResponse;
-  public cast: Cast;
+  public cast: Cast[] = [];
 
   constructor( private activatedRoute: ActivatedRoute,
                private peliculasService: PeliculasService,
@@ -24,7 +25,23 @@ export class PeliculaComponent implements OnInit {
 
      const { id } = this.activatedRoute.snapshot.params;
 
-     this.peliculasService.getPeliculaDetalle( id ).subscribe( movie => {
+     combineLatest([
+      this.peliculasService.getPeliculaDetalle( id ),
+      this.peliculasService.getCast( id )
+
+     ]).subscribe( ([pelicula, cast]) => {
+
+      if ( !pelicula ) {
+        this.router.navigateByUrl('/home');
+        return;
+      }
+      this.pelicula = pelicula;
+      this.cast = cast.filter( actor => actor.profile_path !== null);
+     });
+
+
+
+/*      this.peliculasService.getPeliculaDetalle( id ).subscribe( movie => {
       if ( !movie ) {
         this.router.navigateByUrl('/home');
         return;
@@ -34,8 +51,8 @@ export class PeliculaComponent implements OnInit {
 
      this.peliculasService.getCast( id ).subscribe( cast => {
         console.log(cast);
-        this.cast = cast;
-      });
+        this.cast = cast.filter( actor => actor.profile_path !== null);
+      }); */
 
   }
 
